@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+    <h5>Detalhes do Departamento</h5>
+    <a href="/departamentos" class="btn btn-light btn-sm">Voltar</a>
+  </div>
+  <div class="card-body">
+    <div class="mb-4">
+      <h6>Informações do Departamento</h6>
+      <hr>
+      <p><strong>Nome:</strong> {{departamento.nome}}</p>
+      <p><strong>Descrição:</strong> {{departamento.descricao}}</p>
+    </div>
+    
+    <div class="mb-4">
+      <h6>Professores Associados</h6>
+      <hr>
+      {{#if departamento.Professors.length}}
+        <div class="table-responsive">
+          <table class="table table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each departamento.Professors}}
+                <tr>
+                  <td>{{nome}}</td>
+                  <td>{{email}}</td>
+                  <td>
+                    {{#if (eq status "ativo")}}
+                      <span class="badge bg-success">Ativo</span>
+                    {{else}}
+                      <span class="badge bg-danger">Inativo</span>
+                    {{/if}}
+                  </td>
+                  <td>
+                    <a href="/professores/visualizar/{{id}}" class="btn btn-sm btn-info">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{else}}
+        <div class="alert alert-info">
+          Nenhum professor associado a este departamento.
+        </div>
+      {{/if}}
+    </div>
+    
+    <div class="mt-4 d-flex justify-content-end">
+      <a href="/departamentos/editar/{{departamento.id}}" class="btn btn-warning me-2">
+        <i class="fas fa-edit"></i> Editar
+      </a>
+      <form action="/departamentos/excluir/{{departamento.id}}?_method=DELETE" method="POST" class="d-inline">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este departamento?')">
+          <i class="fas fa-trash"></i> Excluir
+        </button>
+      </form>
+    </div>

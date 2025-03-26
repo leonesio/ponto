@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+    <h5><i class="fas fa-id-card"></i> Perfil do Professor</h5>
+    <a href="/professores/dashboard" class="btn btn-light btn-sm">Voltar</a>
+  </div>
+  <div class="card-body">
+    <form action="/professores/perfil" method="POST">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="nome" name="nome" value="{{professor.nome}}" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="matricula" class="form-label">Matrícula</label>
+          <input type="text" class="form-control" id="matricula" name="matricula" value="{{professor.matricula}}" required readonly>
+          <small class="text-muted">A matrícula não pode ser alterada.</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="{{professor.email}}" required>
+        </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="departamento" class="form-label">Departamento</label>
+          <select class="form-select" id="departamento" name="DepartamentoId" required>
+            {{#each departamentos}}
+              <option value="{{this.id}}" {{#if (eq this.id ../professor.DepartamentoId)}}selected{{/if}}>{{this.nome}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="senha_atual" class="form-label">Senha Atual</label>
+          <input type="password" class="form-control" id="senha_atual" name="senha_atual" placeholder="Digite sua senha atual">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="nova_senha" class="form-label">Nova Senha</label>
+          <input type="password" class="form-control" id="nova_senha" name="nova_senha" placeholder="Digite a nova senha">
+        </div>
+      </div>
+      
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-save"></i> Atualizar Perfil
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

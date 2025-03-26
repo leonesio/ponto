@@ -1,0 +1,84 @@
+<h2 class="mb-4"><i class="fas fa-chalkboard-teacher"></i> Dashboard do Professor</h2>
+
+<div class="row">
+  <!-- Card de Informações do Professor -->
+  <div class="col-md-6 mb-4">
+    <div class="card shadow">
+      <div class="card-header bg-success text-white">
+        <h5><i class="fas fa-user-tie"></i> Minhas Informações</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Nome:</strong> {{professor.nome}}</p>
+        <p><strong>Matrícula:</strong> {{professor.matricula}}</p>
+        <p><strong>Email:</strong> {{professor.email}}</p>
+        <p><strong>Departamento:</strong> {{professor.Departamento.nome}}</p>
+        <p><strong>Status:</strong> 
+          {{#if (eq professor.status "ativo")}}
+            <span class="badge bg-success">Ativo</span>
+          {{else}}
+            <span class="badge bg-danger">Inativo</span>
+          {{/if}}
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Card de Registro de Presença -->
+  <div class="col-md-6 mb-4">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h5><i class="fas fa-calendar-check"></i> Registro de Presença</h5>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle"></i> Data atual: <strong>{{dataAtual}}</strong>
+        </div>
+        
+        {{#if jaRegistrouHoje}}
+          <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> Você já registrou sua presença hoje às <strong>{{horaRegistroHoje}}</strong>.
+          </div>
+        {{else}}
+          <form action="/professores/registrar-presenca" method="POST">
+            <input type="hidden" name="data" value="{{dataAtual}}">
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check-circle"></i> Registrar Presença Hoje
+              </button>
+            </div>
+          </form>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Registro Retroativo de Presença -->
+<div class="row mt-2">
+  <div class="col-12 mb-4">
+    <div class="card shadow">
+      <div class="card-header bg-warning text-dark">
+        <h5><i class="fas fa-history"></i> Registro Retroativo de Presença</h5>
+      </div>
+      <div class="card-body">
+        <form action="/professores/registrar-presenca-retroativa" method="POST">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label for="data_retroativa" class="form-label">Data</label>
+              <input type="date" class="form-control" id="data_retroativa" name="data" required max="{{dataAtual}}">
+            </div>
+            <div class="col-md-8 mb-3">
+              <label for="justificativa" class="form-label">Justificativa</label>
+              <textarea class="form-control" id="justificativa" name="justificativa" rows="2" required placeholder="Explique por que não registrou a presença na data correta"></textarea>
+            </div>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-warning">
+              <i class="fas fa-paper-plane"></i> Enviar Solicitação
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

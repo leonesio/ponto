@@ -1,0 +1,68 @@
+/* Estilos personalizados para o sistema */
+
+/* Estilos gerais */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Estilos para o navbar */
+.navbar-brand {
+  font-weight: bold;
+}
+
+/* Estilos para os cards */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  font-weight: bold;
+}
+
+/* Estilos para tabelas */
+.table th {
+  font-weight: 600;
+  background-color: #f8f9fa;
+}
+
+/* Estilos para botões */
+.btn-group .btn {
+  margin-right: 0.25rem;
+}
+
+/* Estilos para o dashboard */
+.display-4 {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+/* Estilos para formulários */
+.form-label {
+  font-weight: 500;
+}
+
+/* Estilos para mensagens de alerta */
+.alert {
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos para badges */
+.badge {
+  font-weight: 500;
+}
+
+/* Estilos para links */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para ícones */
+.fas {
+  margin-right: 0.25rem;
+}

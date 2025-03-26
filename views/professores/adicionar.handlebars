@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5><i class="fas fa-user-plus"></i> Adicionar Professor</h5>
+    <a href="/professores" class="btn btn-light btn-sm">Voltar</a>
+  </div>
+  <div class="card-body">
+    <form action="/professores/adicionar" method="POST">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome completo" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="matricula" class="form-label">Matrícula</label>
+          <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Número de matrícula" required>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+        </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="senha" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="status" class="form-label">Status</label>
+          <select class="form-select" id="status" name="status" required>
+            <option value="ativo" selected>Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label for="DepartamentoId" class="form-label">Departamento</label>
+        <select class="form-select" id="DepartamentoId" name="DepartamentoId" required>
+          <option value="" selected disabled>Selecione um departamento</option>
+          {{#each departamentos}}
+            <option value="{{id}}">{{nome}}</option>
+          {{/each}}
+        </select>
+      </div>
+      
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,11 +1,20 @@
 const { Sequelize } = require('sequelize');
-const path = require('path');
 
-// Configuração do banco de dados SQLite
+// Configuração do banco de dados PostgreSQL usando variáveis de ambiente
 const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(__dirname, '..', 'database', 'database.sqlite'),
-  logging: false
+  dialect: 'postgres',
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 });
 
 // Testa a conexão com o banco de dados

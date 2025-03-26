@@ -1,3 +1,6 @@
+// Carrega variáveis de ambiente
+require('dotenv').config();
+
 const express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path');

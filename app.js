@@ -57,6 +57,7 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'));
 app.use('/admin', require('./routes/admin'));
 app.use('/professores', require('./routes/professores'));
+app.use('/professores', require('./routes/professor_dashboard'));
 app.use('/departamentos', require('./routes/departamentos'));
 app.use('/admin', require('./routes/relatorios'));
 

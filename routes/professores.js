@@ -72,11 +72,29 @@ router.post('/login', async (req, res) => {
 // Listar todos os professores
 router.get('/', ehAdmin, async (req, res) => {
   try {
-    const professores = await Professor.findAll({
+    // Paginação
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = 10;
+    const offset = (pagina - 1) * limite;
+    
+    // Busca todos os professores com paginação
+    const { count, rows: professores } = await Professor.findAndCountAll({
       include: [{ model: Departamento }],
-      order: [['nome', 'ASC']]
+      order: [['nome', 'ASC']],
+      limit: limite,
+      offset: offset
     });
-    res.render('professores/listar', { professores });
+    
+    // Calcula o total de páginas
+    const totalPaginas = Math.ceil(count / limite);
+    
+    res.render('professores/listar', { 
+      professores,
+      paginaAtual: pagina,
+      totalPaginas,
+      temProximaPagina: pagina < totalPaginas,
+      temPaginaAnterior: pagina > 1
+    });
   } catch (error) {
     console.error('Erro ao listar professores:', error);
     req.session.error_msg = 'Erro ao listar professores';
@@ -443,17 +461,31 @@ router.get('/historico', async (req, res) => {
       return res.redirect('/professores/login');
     }
     
-    // Busca todas as presenças do professor
-    const presencas = await Presenca.findAll({
+    // Paginação
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = 10;
+    const offset = (pagina - 1) * limite;
+    
+    // Busca as presenças do professor com paginação
+    const { count, rows: presencas } = await Presenca.findAndCountAll({
       where: {
         ProfessorId: professor.id
       },
-      order: [['data', 'DESC']]
+      order: [['data', 'DESC']],
+      limit: limite,
+      offset: offset
     });
+    
+    // Calcula o total de páginas
+    const totalPaginas = Math.ceil(count / limite);
     
     res.render('professores/historico', {
       professor,
-      presencas
+      presencas,
+      paginaAtual: pagina,
+      totalPaginas,
+      temProximaPagina: pagina < totalPaginas,
+      temPaginaAnterior: pagina > 1
     });
     
   } catch (error) {

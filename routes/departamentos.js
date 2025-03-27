@@ -9,11 +9,29 @@ const { ehAdmin } = require('../middlewares/auth');
 // Listar todos os departamentos
 router.get('/', ehAdmin, async (req, res) => {
   try {
-    const departamentos = await Departamento.findAll({
+    // Paginação
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = 10;
+    const offset = (pagina - 1) * limite;
+    
+    // Busca todos os departamentos com paginação
+    const { count, rows: departamentos } = await Departamento.findAndCountAll({
       include: [{ model: Professor }],
-      order: [['nome', 'ASC']]
+      order: [['nome', 'ASC']],
+      limit: limite,
+      offset: offset
     });
-    res.render('departamentos/listar', { departamentos });
+    
+    // Calcula o total de páginas
+    const totalPaginas = Math.ceil(count / limite);
+    
+    res.render('departamentos/listar', { 
+      departamentos,
+      paginaAtual: pagina,
+      totalPaginas,
+      temProximaPagina: pagina < totalPaginas,
+      temPaginaAnterior: pagina > 1
+    });
   } catch (error) {
     console.error('Erro ao listar departamentos:', error);
     req.session.error_msg = 'Erro ao listar departamentos';

@@ -178,16 +178,32 @@ router.post('/perfil', ehAdmin, async (req, res) => {
 // Rota para visualizar todas as solicitações de presença
 router.get('/solicitacoes-presenca', ehAdmin, async (req, res) => {
   try {
-    // Busca todas as solicitações de presença
-    const solicitacoes = await Presenca.findAll({
+    // Paginação
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = 10;
+    const offset = (pagina - 1) * limite;
+    
+    // Busca todas as solicitações de presença com paginação
+    const { count, rows: solicitacoes } = await Presenca.findAndCountAll({
       include: [{ 
         model: Professor,
         include: [{ model: Departamento }]
       }],
-      order: [['data', 'DESC']]
+      order: [['data', 'DESC']],
+      limit: limite,
+      offset: offset
     });
     
-    res.render('admin/solicitacoes-presenca', { solicitacoes });
+    // Calcula o total de páginas
+    const totalPaginas = Math.ceil(count / limite);
+    
+    res.render('admin/solicitacoes-presenca', { 
+      solicitacoes,
+      paginaAtual: pagina,
+      totalPaginas,
+      temProximaPagina: pagina < totalPaginas,
+      temPaginaAnterior: pagina > 1
+    });
     
   } catch (error) {
     console.error('Erro ao carregar solicitações de presença:', error);
@@ -203,19 +219,19 @@ router.post('/aprovar-presenca/:id', ehAdmin, async (req, res) => {
     
     if (!presenca) {
       req.session.error_msg = 'Solicitação de presença não encontrada';
-      return res.redirect('/admin/solicitacoes-presenca');
+      return res.redirect('/admin/dashboard');
     }
     
     presenca.status = 'aprovado';
     await presenca.save();
     
     req.session.success_msg = 'Solicitação de presença aprovada com sucesso!';
-    res.redirect('/admin/solicitacoes-presenca');
+    res.redirect('/admin/dashboard');
     
   } catch (error) {
     console.error('Erro ao aprovar solicitação de presença:', error);
     req.session.error_msg = 'Erro ao aprovar solicitação de presença';
-    res.redirect('/admin/solicitacoes-presenca');
+    res.redirect('/admin/dashboard');
   }
 });
 
@@ -226,19 +242,19 @@ router.post('/reprovar-presenca/:id', ehAdmin, async (req, res) => {
     
     if (!presenca) {
       req.session.error_msg = 'Solicitação de presença não encontrada';
-      return res.redirect('/admin/solicitacoes-presenca');
+      return res.redirect('/admin/dashboard');
     }
     
     presenca.status = 'reprovado';
     await presenca.save();
     
     req.session.success_msg = 'Solicitação de presença reprovada com sucesso!';
-    res.redirect('/admin/solicitacoes-presenca');
+    res.redirect('/admin/dashboard');
     
   } catch (error) {
     console.error('Erro ao reprovar solicitação de presença:', error);
     req.session.error_msg = 'Erro ao reprovar solicitação de presença';
-    res.redirect('/admin/solicitacoes-presenca');
+    res.redirect('/admin/dashboard');
   }
 });
 

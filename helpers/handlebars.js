@@ -53,5 +53,24 @@ module.exports = {
   formatTime: function(time, format) {
     if (!time) return '';
     return moment(time).tz('America/Sao_Paulo').format('HH:mm:ss');
+  },
+  
+  // Helper para criar um array com um intervalo de números (para paginação)
+  range: function(start, end) {
+    const result = [];
+    for (let i = start; i <= end; i++) {
+      result.push(i);
+    }
+    return result;
+  },
+  
+  // Helper para adicionar valores (para paginação)
+  add: function(a, b) {
+    return parseInt(a) + parseInt(b);
+  },
+  
+  // Helper para subtrair valores (para paginação)
+  subtract: function(a, b) {
+    return parseInt(a) - parseInt(b);
   }
 };

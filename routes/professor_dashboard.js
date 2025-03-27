@@ -128,17 +128,31 @@ router.get('/historico', ehProfessor, async (req, res) => {
   try {
     const professor = await Professor.findByPk(req.session.user.id);
     
-    // Busca todas as presenças do professor
-    const presencas = await Presenca.findAll({
+    // Paginação
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = 10;
+    const offset = (pagina - 1) * limite;
+    
+    // Busca as presenças do professor com paginação
+    const { count, rows: presencas } = await Presenca.findAndCountAll({
       where: {
         ProfessorId: professor.id
       },
-      order: [['data', 'DESC']]
+      order: [['data', 'DESC']],
+      limit: limite,
+      offset: offset
     });
+    
+    // Calcula o total de páginas
+    const totalPaginas = Math.ceil(count / limite);
     
     res.render('professores/historico', {
       professor,
-      presencas
+      presencas,
+      paginaAtual: pagina,
+      totalPaginas,
+      temProximaPagina: pagina < totalPaginas,
+      temPaginaAnterior: pagina > 1
     });
     
   } catch (error) {

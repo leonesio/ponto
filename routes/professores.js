@@ -19,7 +19,7 @@ router.get('/login', (req, res) => {
 
 // Rota para logout do professor
 router.get('/logout', (req, res) => {
-  req.session.destroy();
+  req.session = null;
   res.redirect('/');
 });
 

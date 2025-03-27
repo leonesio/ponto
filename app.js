@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const methodOverride = require('method-override');
 const { sequelize } = require('./models/db');
 
@@ -32,10 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 // Configuração da sessão
-app.use(session({
-  secret: 'sistema_presenca_secret',
-  resave: false,
-  saveUninitialized: true,
+app.use(cookieSession({
+  name: 'session',
+  keys: ['sistema_presenca_secret'],
+  // Cookie options
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
 }));
 
 // Middleware global para variáveis de sessão

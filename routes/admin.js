@@ -110,7 +110,7 @@ router.get('/dashboard', ehAdmin, async (req, res) => {
 
 // Rota para logout
 router.get('/logout', (req, res) => {
-  req.session.destroy();
+  req.session = null;
   res.redirect('/admin/login');
 });
 

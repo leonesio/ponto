@@ -115,7 +115,7 @@ router.post('/gerar-relatorio', ehAdmin, async (req, res) => {
         doc.fillColor('#333333').fontSize(11);
         doc.text(data.format('DD/MM/YYYY'), 60, y);
         doc.text(diaSemana, 160, y);
-        doc.text(moment(presenca.hora_registro).format('HH:mm:ss'), 310, y);
+        doc.text(moment(presenca.hora_registro).tz('America/Sao_Paulo').format('HH:mm:ss'), 310, y);
         doc.fillColor('#28a745').text('Aprovado', 460, y);
         
         y += 25;

@@ -37,5 +37,14 @@
     "glob": "^11.0.1",
     "nodemon": "^3.1.9",
     "rimraf": "^6.0.1"
+  },
+  "overrides": {
+    "glob": "^11.0.1",
+    "rimraf": "^6.0.1",
+    "inflight": "npm:@isaacs/inflight@^2.0.1",
+    "npmlog": "npm:@npmcli/npm-log@^1.0.0",
+    "gauge": "npm:@npmcli/gauge@^5.0.0",
+    "are-we-there-yet": "npm:@npmcli/are-we-there-yet@^4.0.0",
+    "@npmcli/move-file": "npm:@npmcli/fs@^3.1.0"
   }
 }

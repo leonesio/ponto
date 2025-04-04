@@ -358,11 +358,11 @@ router.post('/registrar-presenca', async (req, res) => {
     
     if (data.includes('/')) {
       // Se a data vier no formato DD/MM/YYYY
-      dataFormatada = moment(data, 'DD/MM/YYYY').tz('America/Sao_Paulo').format('YYYY-MM-DD');
+      dataFormatada = moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
       console.log('Data após formatação (de DD/MM/YYYY):', dataFormatada);
     } else {
       // Se a data já vier no formato YYYY-MM-DD
-      dataFormatada = moment(data).tz('America/Sao_Paulo').format('YYYY-MM-DD');
+      dataFormatada = moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD');
       console.log('Data após formatação (de YYYY-MM-DD):', dataFormatada);
     }
     
@@ -425,13 +425,13 @@ router.post('/registrar-presenca-retroativa', async (req, res) => {
     
     // Se a data vier no formato DD/MM/YYYY (do input hidden)
     if (data.includes('/')) {
-      // Usa o moment.js para converter a data especificando o formato e aplicando o timezone
-      dataFormatada = moment(data, 'DD/MM/YYYY').tz('America/Sao_Paulo').format('YYYY-MM-DD');
+      // Usa o moment.js para converter a data especificando o formato sem aplicar timezone
+      dataFormatada = moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
       console.log('Presença retroativa - Data após formatação (de DD/MM/YYYY):', dataFormatada);
     } else {
       // Se a data vier no formato YYYY-MM-DD (do input type="date")
-      // Aplica o timezone antes de formatar
-      dataFormatada = moment(data).tz('America/Sao_Paulo').format('YYYY-MM-DD');
+      // Preserva a data original sem aplicar timezone
+      dataFormatada = moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD');
       console.log('Presença retroativa - Data após formatação (de YYYY-MM-DD):', dataFormatada);
     }
     

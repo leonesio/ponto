@@ -373,6 +373,7 @@ router.post('/registrar-presenca', async (req, res) => {
     // Cria o registro de presença
     await Presenca.create({
       data: dataFormatada,
+      hora_registro: moment().tz('America/Sao_Paulo'),
       ProfessorId: professorId,
       retroativo: false,
       status: 'aprovado'
@@ -427,6 +428,7 @@ router.post('/registrar-presenca-retroativa', async (req, res) => {
     // Cria o registro de presença retroativa
     await Presenca.create({
       data: dataFormatada,
+      hora_registro: moment().tz('America/Sao_Paulo'),
       ProfessorId: professorId,
       retroativo: true,
       justificativa,

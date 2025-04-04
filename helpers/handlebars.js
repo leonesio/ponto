@@ -41,7 +41,7 @@ module.exports = {
   formatDate: function(date, format) {
     if (!date) return '';
     // Interpreta a data no fuso horário local e depois converte para São Paulo
-    return moment(date).tz('America/Sao_Paulo').format('DD/MM/YYYY');
+    return moment(date).tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm');
   },
 
   // Helper para formatar data e hora no fuso horário do Brasil

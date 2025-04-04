@@ -354,19 +354,14 @@ router.post('/registrar-presenca', async (req, res) => {
     
     // Converte a data do formato DD/MM/YYYY para YYYY-MM-DD com timezone
     let dataFormatada;
-    console.log('Data recebida do formulário:', data);
     
     if (data.includes('/')) {
       // Se a data vier no formato DD/MM/YYYY
       dataFormatada = moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
-      console.log('Data após formatação (de DD/MM/YYYY):', dataFormatada);
     } else {
       // Se a data já vier no formato YYYY-MM-DD
       dataFormatada = moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD');
-      console.log('Data após formatação (de YYYY-MM-DD):', dataFormatada);
     }
-    
-    console.log('Data formatada final que será usada no banco:', dataFormatada);
     
     // Verifica se já existe registro para esta data
     const registroExistente = await Presenca.findOne({
@@ -382,9 +377,6 @@ router.post('/registrar-presenca', async (req, res) => {
     }
     
     // Cria o registro de presença
-    console.log('Criando registro de presença com data:', dataFormatada);
-    console.log('Hora de registro:', moment().tz('America/Sao_Paulo').format());
-    
     const presenca = await Presenca.create({
       data: dataFormatada,
       hora_registro: moment().tz('America/Sao_Paulo'),
@@ -392,8 +384,6 @@ router.post('/registrar-presenca', async (req, res) => {
       retroativo: false,
       status: 'aprovado'
     });
-    
-    console.log('Registro de presença criado:', presenca.toJSON());
     
     req.session.success_msg = 'Presença registrada com sucesso!';
     res.redirect('/professores/dashboard');
@@ -420,22 +410,15 @@ router.post('/registrar-presenca-retroativa', async (req, res) => {
     // Converte a data para o formato YYYY-MM-DD se estiver no formato DD/MM/YYYY
     let dataFormatada;
     
-    console.log('Presença retroativa - Data recebida do formulário:', data);
-    console.log('Presença retroativa - Justificativa:', justificativa);
-    
     // Se a data vier no formato DD/MM/YYYY (do input hidden)
     if (data.includes('/')) {
       // Usa o moment.js para converter a data especificando o formato sem aplicar timezone
       dataFormatada = moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
-      console.log('Presença retroativa - Data após formatação (de DD/MM/YYYY):', dataFormatada);
     } else {
       // Se a data vier no formato YYYY-MM-DD (do input type="date")
       // Preserva a data original sem aplicar timezone
       dataFormatada = moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD');
-      console.log('Presença retroativa - Data após formatação (de YYYY-MM-DD):', dataFormatada);
     }
-    
-    console.log('Presença retroativa - Data formatada final que será usada no banco:', dataFormatada);
     
     // Verifica se já existe registro para esta data
     const registroExistente = await Presenca.findOne({
@@ -451,9 +434,6 @@ router.post('/registrar-presenca-retroativa', async (req, res) => {
     }
     
     // Cria o registro de presença retroativa
-    console.log('Criando registro de presença retroativa com data:', dataFormatada);
-    console.log('Hora de registro:', moment().tz('America/Sao_Paulo').format());
-    
     const presenca = await Presenca.create({
       data: dataFormatada,
       hora_registro: moment().tz('America/Sao_Paulo'),
@@ -462,8 +442,6 @@ router.post('/registrar-presenca-retroativa', async (req, res) => {
       justificativa,
       status: 'pendente'
     });
-    
-    console.log('Registro de presença retroativa criado:', presenca.toJSON());
     
     req.session.success_msg = 'Solicitação de presença retroativa enviada com sucesso! Aguarde aprovação.';
     res.redirect('/professores/dashboard');

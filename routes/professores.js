@@ -352,10 +352,15 @@ router.post('/registrar-presenca', async (req, res) => {
     const { data } = req.body;
     const professorId = req.session.user.id;
     
-    // Converte a data do formato DD/MM/YYYY para YYYY-MM-DD
-    const dataParts = data.split('/');
-    const dataFormatada = dataParts.length === 3 ? 
-      `${dataParts[2]}-${dataParts[1]}-${dataParts[0]}` : data;
+    // Converte a data do formato DD/MM/YYYY para YYYY-MM-DD com timezone
+    let dataFormatada;
+    if (data.includes('/')) {
+      // Se a data vier no formato DD/MM/YYYY
+      dataFormatada = moment(data, 'DD/MM/YYYY').tz('America/Sao_Paulo').format('YYYY-MM-DD');
+    } else {
+      // Se a data já vier no formato YYYY-MM-DD
+      dataFormatada = moment(data).tz('America/Sao_Paulo').format('YYYY-MM-DD');
+    }
     
     // Verifica se já existe registro para esta data
     const registroExistente = await Presenca.findOne({
@@ -402,15 +407,17 @@ router.post('/registrar-presenca-retroativa', async (req, res) => {
     const professorId = req.session.user.id;
     
     // Converte a data para o formato YYYY-MM-DD se estiver no formato DD/MM/YYYY
-    let dataFormatada = data;
+    let dataFormatada;
     
     // Se a data vier no formato DD/MM/YYYY (do input hidden)
     if (data.includes('/')) {
-      // Usa o moment.js para converter a data especificando o formato
-      dataFormatada = moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      // Usa o moment.js para converter a data especificando o formato e aplicando o timezone
+      dataFormatada = moment(data, 'DD/MM/YYYY').tz('America/Sao_Paulo').format('YYYY-MM-DD');
+    } else {
+      // Se a data vier no formato YYYY-MM-DD (do input type="date")
+      // Aplica o timezone antes de formatar
+      dataFormatada = moment(data).tz('America/Sao_Paulo').format('YYYY-MM-DD');
     }
-    // Se a data vier no formato YYYY-MM-DD (do input type="date")
-    // Mantém o formato original
     
     // Verifica se já existe registro para esta data
     const registroExistente = await Presenca.findOne({

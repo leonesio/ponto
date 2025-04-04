@@ -41,21 +41,21 @@ module.exports = {
   formatDate: function(date, format) {
     if (!date) return '';
     // Converte explicitamente para o fuso horário do Brasil antes de formatar
-    return moment.utc(date).tz('America/Sao_Paulo').format('DD/MM/YYYY');
+    return moment(date).tz('America/Sao_Paulo').format('DD/MM/YYYY');
   },
 
   // Helper para formatar data e hora no fuso horário do Brasil
   formatDateTime: function(date, format) {
     if (!date) return '';
     // Converte explicitamente para o fuso horário do Brasil antes de formatar
-    return moment.utc(date).tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm');
+    return moment(date).tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm');
   },
   
   // Helper para formatar apenas a hora no fuso horário do Brasil
   formatTime: function(time, format) {
     if (!time) return '';
     // Converte explicitamente para o fuso horário do Brasil antes de formatar
-    return moment.utc(time).tz('America/Sao_Paulo').format('HH:mm:ss');
+    return moment(time).tz('America/Sao_Paulo').format('HH:mm:ss');
   },
   
   // Helper para criar um array com um intervalo de números (para paginação)

@@ -37,21 +37,21 @@ module.exports = {
     return Array.isArray(array) && array.includes(value);
   },
 
-  // Helper para formatar data no fuso horário do Brasil
+  // Helper para formatar data
   formatDate: function(date, format) {
     if (!date) return '';
-    // Interpreta a data no fuso horário local e depois converte para São Paulo
-    return moment(date).tz('America/Sao_Paulo').format('DD/MM/YYYY');
+    // Formata a data sem aplicar conversão de fuso horário
+    return moment(date).format('DD/MM/YYYY');
   },
 
-  // Helper para formatar data e hora no fuso horário do Brasil
+  // Helper para formatar data e hora
   formatDateTime: function(date, format) {
     if (!date) return '';
     // Interpreta a data no fuso horário local e depois converte para São Paulo
     return moment(date).tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm');
   },
   
-  // Helper para formatar apenas a hora no fuso horário do Brasil
+  // Helper para formatar apenas a hora
   formatTime: function(time, format) {
     if (!time) return '';
     // Interpreta a hora no fuso horário local e depois converte para São Paulo
